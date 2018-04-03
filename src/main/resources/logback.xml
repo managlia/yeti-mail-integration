@@ -1,0 +1,75 @@
+<configuration>
+    # Console appender
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            # Pattern of log message for console appender
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{64}.%method:%L - %m%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="allAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>c:/logs/mail/mail_app.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{64}.%method:%L - %m%n</pattern>
+        </encoder>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>c:/logs/mail/mail_app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        	<level>TRACE</level>
+        	<onMatch>ACCEPT</onMatch>
+        	<onMismatch>DENY</onMismatch>
+        </filter>
+         -->
+    </appender>
+
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>c:/logs/mail/mail_app_error.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{64}.%method:%L - %m%n</pattern>
+        </encoder>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>c:/logs/mail/mail_app_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        	<level>ERROR</level>
+        	<onMatch>ACCEPT</onMatch>
+        	<onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <logger name="com.yeti" level="TRACE">
+        <appender-ref ref="allAppender"/>
+        <appender-ref ref="errorAppender"/>
+        <appender-ref ref="stdout"/>
+    </logger>
+
+    <logger name="com.yeti" level="TRACE">
+        <appender-ref ref="allAppender"/>
+        <appender-ref ref="stdout"/>
+    </logger>
+
+    <root level="TRACE">
+        <appender-ref ref="allAppender"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
+    <root level="ERROR">
+        <appender-ref ref="allAppender"/>
+        <appender-ref ref="errorAppender"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
+    <root level="DEBUG">
+        <appender-ref ref="allAppender"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>
